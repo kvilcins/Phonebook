@@ -200,6 +200,7 @@ const data = [
       list: table.tbody,
       logo,
       btnAdd: buttonGroup.btns[0],
+      btnDel: buttonGroup.btns[1],
       formOverlay: form.overlay,
       form: form.form,
     };
@@ -207,6 +208,8 @@ const data = [
 
   const createRow = ({name: firstname, surname, phone}) => {
     const tr = document.createElement('tr');
+    tr.classList.add('contact');
+
     const tdDel = document.createElement('td');
     tdDel.classList.add('delete');
 
@@ -257,10 +260,17 @@ const data = [
   const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
     const phoneBook = renderPhoneBook(app, title);
-    const closePopup = document.querySelector('.close');
+    // const closePopup = document.querySelector('.close');
     const resetButton = document.querySelector('button[type=reset]')
 
-    const {list, logo, btnAdd, formOverlay, form} = phoneBook;
+    const {
+      list,
+      logo,
+      btnAdd,
+      formOverlay,
+      form,
+      btnDel,
+    } = phoneBook;
 
     //Functional
     const allRow = renderContacts(list, data);
@@ -270,20 +280,37 @@ const data = [
       formOverlay.classList.add('is-visible');
     });
 
-    closePopup.addEventListener('click', () => {
-      formOverlay.classList.remove('is-visible');
-    });
+    // closePopup.addEventListener('click', () => {
+    //   formOverlay.classList.remove('is-visible');
+    // });
 
     resetButton.addEventListener('click', () => {
       formOverlay.classList.remove('is-visible');
     });
 
-    form.addEventListener('click', (event) => {
-      event.stopPropagation();
-    }); //это не очень хорошая практика, лучше использовать технологию делегирования
+    // form.addEventListener('click', (event) => {
+    //   event.stopPropagation();
+    // });
+    // это не очень хорошая практика, лучше использовать технологию делегирования
 
-    formOverlay.addEventListener('click', () => {
-      formOverlay.classList.remove('is-visible');
+    formOverlay.addEventListener('click', e => {
+      const target = e.target;
+
+      if (target === formOverlay || target.classList.contains('close')) {
+        formOverlay.classList.remove('is-visible');
+      } // метод делегирования
+    });
+
+    btnDel.addEventListener('click', () => {
+      document.querySelectorAll('.delete').forEach(del => {
+        del.classList.toggle('is-visible');
+      });
+    });
+
+    list.addEventListener('click', e => {
+      if (e.target.closest('.del-icon')) {
+        e.target.closest('.contact').remove();
+      }
     });
   };
 
