@@ -198,6 +198,10 @@ const data = [
 
     return {
       list: table.tbody,
+      logo,
+      btnAdd: buttonGroup.btns[0],
+      formOverlay: form.overlay,
+      form: form.form,
     };
   };
 
@@ -221,6 +225,7 @@ const data = [
     phoneLink.href = `tel:${phone}`;
     phoneLink.textContent = phone;
 
+    tr.phoneLink = phoneLink;
     tdPhone.append(phoneLink);
 
     tr.append(tdDel, tdName, tdSurname, tdPhone);
@@ -232,15 +237,54 @@ const data = [
   const renderContacts = (elem, data) => {
     const allRow = data.map(createRow);
     elem.append(...allRow);
+
+    return allRow;
+  };
+
+  const howerRow = (allRow, logo) => {
+    const text = logo.textContent;
+
+    allRow.forEach(contact => {
+      contact.addEventListener('mouseenter', () => {
+        logo.textContent = contact.phoneLink.textContent;
+      });
+      contact.addEventListener('mouseleave', () => {
+        logo.textContent = text;
+      });
+    });
   };
 
   const init = (selectorApp, title) => {
     const app = document.querySelector(selectorApp);
     const phoneBook = renderPhoneBook(app, title);
+    const closePopup = document.querySelector('.close');
+    const resetButton = document.querySelector('button[type=reset]')
 
-    const { list } = phoneBook;
+    const {list, logo, btnAdd, formOverlay, form} = phoneBook;
 
-    renderContacts(list, data);
+    //Functional
+    const allRow = renderContacts(list, data);
+    howerRow(allRow, logo);
+
+    btnAdd.addEventListener('click', () => {
+      formOverlay.classList.add('is-visible');
+    });
+
+    closePopup.addEventListener('click', () => {
+      formOverlay.classList.remove('is-visible');
+    });
+
+    resetButton.addEventListener('click', () => {
+      formOverlay.classList.remove('is-visible');
+    });
+
+    form.addEventListener('click', (event) => {
+      event.stopPropagation();
+    }); //это не очень хорошая практика, лучше использовать технологию делегирования
+
+    formOverlay.addEventListener('click', () => {
+      formOverlay.classList.remove('is-visible');
+    });
   };
 
   window.phoneBookInit = init;
