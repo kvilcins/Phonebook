@@ -1,3 +1,5 @@
+import {createContainer, createHeader, createLogo, createMain, createButtonsGroup, createTable, createForm, createFooter, createCopyright, createRow, hoverRow,} from './createElements.js';
+
 const renderPhoneBook = (app, title) => {
   const header = createHeader();
   const logo = createLogo(title);
@@ -41,7 +43,7 @@ const renderContacts = (elem, data) => {
   return allRow;
 };
 
-export default {
+export {
   renderPhoneBook,
   renderContacts,
 };

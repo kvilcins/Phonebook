@@ -19,7 +19,7 @@ const removeStorage = (phone) => {
 
 const data = getStorage('data');
 
-export default {
+export {
   getStorage,
   setStorage,
   removeStorage,

@@ -1,6 +1,6 @@
-import render from './modules/render.js';
-import createElements from './modules/createElements.js';
-import serviceStorage from './modules/serviceStorage.js';
+import {createContainer, createHeader, createLogo, createMain, createButtonsGroup, createTable, createForm, createFooter, createCopyright, createRow, hoverRow,} from './modules/createElements.js';
+import {getStorage, setStorage, removeStorage, data} from './modules/serviceStorage.js';
+import {renderPhoneBook, renderContacts} from './modules/render.js';
 
 
 const init = (selectorApp, title) => {

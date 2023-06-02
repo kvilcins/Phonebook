@@ -168,7 +168,7 @@ const hoverRow = (allRow, logo) => {
   });
 };
 
-export default {
+export {
   createContainer,
   createHeader,
   createLogo,
